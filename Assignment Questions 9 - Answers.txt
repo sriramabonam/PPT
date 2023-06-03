@@ -1,0 +1,119 @@
+1. Ans
+
+def isPowerOfTwo(n):
+    if n <= 0:
+        return False
+
+    while n > 1:
+        if n % 2 != 0:
+            return False
+        n /= 2
+
+    return True
+	
+print(isPowerOfTwo(1))    # Output: True
+print(isPowerOfTwo(16))   # Output: True
+print(isPowerOfTwo(3))    # Output: False
+
+
+2. Ans
+def sumOfFirstN(n):
+    return (n * (n + 1)) // 2
+
+n = 3
+print(sumOfFirstN(n))
+
+n = 5
+print(sumOfFirstN(n))
+
+n = 3
+print(sumOfFirstN(n))
+
+n = 5
+print(sumOfFirstN(n))
+
+3. Ans
+
+def factorial(N):
+    fact = 1
+    for num in range(1, N + 1):
+        fact *= num
+    return fact
+
+N = 5
+print(factorial(N))
+
+N = 4
+print(factorial(N))
+
+4. Ans
+
+def calculateExponent(N, P):
+    return N ** P
+
+N = 5
+P = 2
+print(calculateExponent(N, P))
+
+N = 2
+P = 5
+print(calculateExponent(N, P))
+
+5. Ans
+
+def findMax(arr, index):
+    if index >= len(arr):
+        return float('-inf')  # Return negative infinity in the base case
+    max_rest = findMax(arr, index + 1)  # Recursive call to find maximum in the remaining array
+    return max(arr[index], max_rest)  # Return the greater of arr[index] and max_rest
+
+# Testing the function
+arr1 = [1, 4, 3, -5, -4, 8, 6]
+print(findMax(arr1, 0))  # Output: 8
+
+arr2 = [1, 4, 45, 6, 10, -8]
+print(findMax(arr2, 0))  # Output: 45
+
+6. Ans
+
+def findNthTerm(a, d, n):
+    nth_term = a + (n - 1) * d
+    return nth_term
+
+print(findNthTerm(2, 1, 5))    # Output: 6
+print(findNthTerm(5, 2, 10))   # Output: 23
+
+7. Ans
+
+def generatePermutations(s, left, right):
+    if left == right:
+        print("".join(s))
+    else:
+        for i in range(left, right + 1):
+            # Fix the character at the left index
+            s[left], s[i] = s[i], s[left]
+            
+            # Recursively generate permutations for the remaining characters
+            generatePermutations(s, left + 1, right)
+            
+            # Restore the original order for backtracking
+            s[left], s[i] = s[i], s[left]
+
+def printPermutations(S):
+    s = list(S)
+    n = len(s)
+    
+    # Call the recursive function
+    generatePermutations(s, 0, n - 1)
+
+printPermutations("ABC")
+print("------------------------")
+printPermutations("XY")
+
+8. Ans
+
+arr1 = [1, 2, 3, 4, 5]
+print(productOfArray(arr1))    # Output: 120
+
+arr2 = [1, 6, 3]
+print(productOfArray(arr2))    # Output: 18

@@ -1,0 +1,158 @@
+1. Ans
+
+def isIsomorphic(s, t):
+    if len(s) != len(t):
+        return False
+
+    s_dict = {}
+    t_dict = {}
+
+    for i in range(len(s)):
+        if s[i] not in s_dict and t[i] not in t_dict:
+            s_dict[s[i]] = t[i]
+            t_dict[t[i]] = s[i]
+        elif s[i] in s_dict and s_dict[s[i]] != t[i]:
+            return False
+        elif t[i] in t_dict and t_dict[t[i]] != s[i]:
+            return False
+
+    return True
+
+2. Ans
+
+def isStrobogrammatic(num):
+    strobogrammatic_dict = {'0': '0', '1': '1', '6': '9', '8': '8', '9': '6'}
+    left = 0
+    right = len(num) - 1
+
+    while left <= right:
+        if num[left] not in strobogrammatic_dict or strobogrammatic_dict[num[left]] != num[right]:
+            return False
+        left += 1
+        right -= 1
+
+    return True
+	
+3. Ans
+
+def addStrings(num1, num2):
+    p1, p2 = len(num1) - 1, len(num2) - 1
+    carry = 0
+    result = ""
+    
+    while p1 >= 0 or p2 >= 0:
+        n1 = int(num1[p1]) if p1 >= 0 else 0
+        n2 = int(num2[p2]) if p2 >= 0 else 0
+        summ = n1 + n2 + carry
+        result = str(summ % 10) + result
+        carry = summ // 10
+        p1 -= 1
+        p2 -= 1
+    
+    if carry > 0:
+        result = str(carry) + result
+    
+    return result
+
+num1 = "11"
+num2 = "123"
+print(addStrings(num1, num2))  # Output: "134"
+
+4. Ans
+
+def reverseWords(s):
+    words = s.split()
+    reversed_words = []
+    
+    for word in words:
+        reversed_word = word[::-1]
+        reversed_words.append(reversed_word)
+    
+    result = " ".join(reversed_words)
+    return result
+
+s = "Let's take LeetCode contest"
+print(reverseWords(s))  # Output: "s'teL ekat edoCteeL tsetnoc"
+
+5. Ans
+
+def reverseStr(s, k):
+    chars = list(s)
+    n = len(chars)
+
+    for i in range(0, n, 2 * k):
+        left = i
+        right = min(i + k - 1, n - 1)
+
+        while left < right:
+            chars[left], chars[right] = chars[right], chars[left]
+            left += 1
+            right -= 1
+
+    return ''.join(chars)
+
+s = "abcdefg"
+k = 2
+print(reverseStr(s, k))  # Output: "bacdfeg"
+
+
+6. Ans
+
+def rotateString(s, goal):
+    if len(s) != len(goal):
+        return False
+    
+    s_doubled = s + s
+    if goal in s_doubled:
+        return True
+    
+    return False
+
+s = "abcde"
+goal = "cdeab"
+print(rotateString(s, goal))  # Output: True
+
+7. Ans
+
+def backspaceCompare(s, t):
+    def processString(string):
+        stack = []
+        for ch in string:
+            if ch != '#':
+                stack.append(ch)
+            elif stack:
+                stack.pop()
+        return stack
+    
+    stack_s = processString(s)
+    stack_t = processString(t)
+    
+    return stack_s == stack_t
+
+s = "ab#c"
+t = "ad#c"
+print(backspaceCompare(s, t))  # Output: True
+
+8. Ans
+
+def checkStraightLine(coordinates):
+    if len(coordinates) <= 2:
+        return True
+    
+    x1, y1 = coordinates[0]
+    x2, y2 = coordinates[1]
+    
+    for i in range(2, len(coordinates)):
+        x, y = coordinates[i]
+        
+        # Check if the current point lies on the same line as the previous two points
+        if (y2 - y1) * (x - x1) != (y - y1) * (x2 - x1):
+            return False
+        
+    return True
+
+coordinates = [[1, 2], [2, 3], [3, 4], [4, 5], [5, 6], [6, 7]]
+print(checkStraightLine(coordinates))
+
+
+
