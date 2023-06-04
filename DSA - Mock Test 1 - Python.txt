@@ -1,0 +1,35 @@
+DSA - Mock Test 1 - Python
+
+1. Ans 
+
+Move Zeroes
+
+def moveZeroes(nums):
+    left = 0
+    right = 0
+    n = len(nums)
+
+    while right < n:
+        if nums[right] != 0:
+            nums[left], nums[right] = nums[right], nums[left]
+            left += 1
+        right += 1
+
+First Unique Character in a String
+
+2. Ans
+
+ 
+def firstUniqChar(s):
+    char_count = {}
+
+    # Update the count of each character in the hashmap
+    for char in s:
+        char_count[char] = char_count.get(char, 0) + 1
+
+    # Find the index of the first non-repeating character
+    for i, char in enumerate(s):
+        if char_count[char] == 1:
+            return i
+
+    return -1
