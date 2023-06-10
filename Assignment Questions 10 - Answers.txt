@@ -1,0 +1,169 @@
+1.Ans
+
+def isPowerOfThree(n):
+    if n <= 0:
+        return False
+    x = 1
+    while x <= n:
+        if x == n:
+            return True
+        x *= 3
+    return False
+	
+2.Ans
+
+import math
+
+def lastRemaining(n):
+    remaining = n
+    start = 1
+    left_to_right = True
+
+    while remaining > 1:
+        if left_to_right:
+            step = 2 ** int(math.log(remaining // 2, 2))
+            start += step
+        else:
+            step = 2 ** int(math.log(remaining // 2, 2)) if remaining % 2 == 1 else 0
+            start -= step
+        left_to_right = not left_to_right
+        remaining //= 2
+
+    return start
+
+print(lastRemaining(9))  # Output: 6
+
+3.Ans
+
+def generateSubsets(set_str, current_subset, index):
+    if index == len(set_str):
+        print(current_subset)
+        return
+
+    generateSubsets(set_str, current_subset, index + 1)
+    generateSubsets(set_str, current_subset + set_str[index], index + 1)
+
+def printSubsets(set_str):
+    generateSubsets(set_str, "", 0)
+
+printSubsets("abc")
+
+abc
+ab
+ac
+a
+bc
+b
+c
+
+printSubsets("abcd")
+
+abcd
+abc
+abd
+ab
+acd
+ac
+ad
+a
+bcd
+bc
+bd
+b
+cd
+c
+d
+
+4.Ans
+
+def calculateLength(s, index):
+    if index == len(s):
+        return 0
+    return 1 + calculateLength(s, index + 1)
+
+def lengthOfStr(s):
+    return calculateLength(s, 0)
+
+print(lengthOfStr("Hello, world!"))
+
+5.Ans
+
+def countSubstrings(S):
+    count = 0
+
+    for i in range(len(S)):
+        subcount = 0
+
+        for j in range(i, len(S)):
+            if S[j] == S[i]:
+                subcount += 1
+
+            count += subcount
+
+    return count
+
+print(countSubstrings("abcab"))
+
+6.Ans
+
+def towerOfHanoi(N, src, dest, aux):
+    if N == 1:
+        print("move disk 1 from rod", src, "to rod", dest)
+        return 1
+
+    moves1 = towerOfHanoi(N - 1, src, aux, dest)
+    print("move disk", N, "from rod", src, "to rod", dest)
+    moves2 = towerOfHanoi(N - 1, aux, dest, src)
+
+    return moves1 + moves2 + 1
+
+def towerOfHanoiSteps(N):
+    total_moves = towerOfHanoi(N, 1, 3, 2)
+    print("Total moves:", total_moves)
+
+towerOfHanoiSteps(2)
+
+move disk 1 from rod 1 to rod 2
+move disk 2 from rod 1 to rod 3
+move disk 1 from rod 2 to rod 3
+Total moves: 3
+
+7.Ans
+
+def permute(remaining, current_permutation, used):
+    if len(current_permutation) == len(remaining):
+        print(current_permutation)
+        return
+
+    for i, c in enumerate(remaining):
+        if used[i]:
+            continue
+
+        used[i] = True
+        permute(remaining[:i] + remaining[i+1:], current_permutation + c, used)
+        used[i] = False
+
+def printPermutations(str):
+    used = [False] * len(str)
+    permute(str, "", used)
+
+printPermutations("cd")
+
+
+8.Ans
+
+def countConsonants(string):
+    consonant_count = 0
+    vowels = ['a', 'e', 'i', 'o', 'u']
+    string = string.lower()
+
+    for c in string:
+        if c.isalpha() and c not in vowels:
+            consonant_count += 1
+
+    return consonant_count
+
+print(countConsonants("Hello, world!"))
+
+
+
