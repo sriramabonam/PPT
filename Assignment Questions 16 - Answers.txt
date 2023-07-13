@@ -1,0 +1,252 @@
+1. Ans
+
+def find_nearest_greater_frequency(arr):
+    frequency = {}
+    stack = []
+    result = [-1] * len(arr)
+
+    for i in range(len(arr)-1, -1, -1):
+        while stack and frequency.get(arr[stack[-1]]) <= frequency.get(arr[i]):
+            stack.pop()
+
+        if stack:
+            result[i] = arr[stack[-1]]
+
+        stack.append(i)
+        frequency[arr[i]] = frequency.get(arr[i], 0) + 1
+
+    return result
+
+# Examples:
+arr1 = [1, 1, 2, 3, 4, 2, 1]
+arr2 = [2, 3, 4, 2, 1, 4, 2]
+arr3 = [1, 1, 1, 1, 1, 1, 1]
+
+result1 = find_nearest_greater_frequency(arr1)
+result2 = find_nearest_greater_frequency(arr2)
+result3 = find_nearest_greater_frequency(arr3)
+
+print(result1)  # Output: [2, 2, 2, -1, -1, -1, -1]
+print(result2)  # Output: [3, 4, -1, 4, 4, -1, -1]
+print(result3)  # Output: [-1, -1, -1, -1, -1, -1, -1]
+
+
+2. Ans
+
+def sort_stack(stack):
+    temp_stack = []
+
+    while stack:
+        temp = stack.pop()
+
+        while temp_stack and temp_stack[-1] > temp:
+            stack.append(temp_stack.pop())
+
+        temp_stack.append(temp)
+
+    while temp_stack:
+        stack.append(temp_stack.pop())
+
+# Example:
+stack = [5, 2, 8, 3, 1]
+sort_stack(stack)
+print(stack)
+# Output: [1, 2, 3, 5, 8]
+
+
+3. Ans
+
+def delete_middle(stack, current):
+    if current == middle:
+        stack.pop()
+        return
+
+    element = stack.pop()
+    delete_middle(stack, current + 1)
+    stack.append(element)
+
+# Example:
+stack = [1, 2, 3, 4, 5]
+size_of_stack = len(stack)
+middle = size_of_stack // 2
+
+delete_middle(stack, 0)
+print(stack)
+# Output: [1, 2, 4, 5]
+
+4. Ans
+
+from queue import Queue
+
+def check_queue(arr):
+    n = len(arr)
+    given_queue = Queue()
+    second_queue = Queue()
+    stack = []
+
+    for element in arr:
+        given_queue.put(element)
+
+    expected_element = 1
+
+    while not given_queue.empty():
+        if given_queue.queue[0] == expected_element:
+            second_queue.put(given_queue.get())
+            expected_element += 1
+        elif stack and stack[-1] == expected_element:
+            second_queue.put(stack.pop())
+            expected_element += 1
+        else:
+            stack.append(given_queue.get())
+
+    while stack:
+        if stack[-1] == expected_element:
+            second_queue.put(stack.pop())
+            expected_element += 1
+        else:
+            break
+
+    return "Yes" if given_queue.empty() and stack == [] else "No"
+
+# Example:
+arr1 = [5, 1, 2, 3, 4]
+arr2 = [5, 1, 2, 6, 3, 4]
+
+result1 = check_queue(arr1)
+result2 = check_queue(arr2)
+
+print(result1)  # Output: Yes
+print(result2)  # Output: No
+
+
+5. Ans
+
+from queue import Queue
+
+def check_queue(arr):
+    n = len(arr)
+    given_queue = Queue()
+    second_queue = Queue()
+    stack = []
+
+    for element in arr:
+        given_queue.put(element)
+
+    expected_element = 1
+
+    while not given_queue.empty():
+        if given_queue.queue[0] == expected_element:
+            second_queue.put(given_queue.get())
+            expected_element += 1
+        elif stack and stack[-1] == expected_element:
+            second_queue.put(stack.pop())
+            expected_element += 1
+        else:
+            stack.append(given_queue.get())
+
+    while stack:
+        if stack[-1] == expected_element:
+            second_queue.put(stack.pop())
+            expected_element += 1
+        else:
+            break
+
+    return "Yes" if given_queue.empty() and stack == [] else "No"
+
+# Example:
+arr1 = [5, 1, 2, 3, 4]
+arr2 = [5, 1, 2, 6, 3, 4]
+
+result1 = check_queue(arr1)
+result2 = check_queue(arr2)
+
+print(result1)  # Output: Yes
+print(result2)  # Output: No
+
+
+6. Ans
+
+from queue import Queue
+
+def reverse_first_k(queue, k):
+    if k <= 0 or k > queue.qsize():
+        return queue
+
+    stack = []
+    for _ in range(k):
+        stack.append(queue.get())
+
+    while stack:
+        queue.put(stack.pop())
+
+    return queue
+
+# Example:
+queue = Queue()
+queue.put(1)
+queue.put(2)
+queue.put(3)
+queue.put(4)
+queue.put(5)
+
+k = 3
+
+reversed_queue = reverse_first_k(queue, k)
+while not reversed_queue.empty():
+    print(reversed_queue.get(), end=" ")
+# Output: 3 2 1 4 5
+
+7. Ans
+
+def pairwise_destruction(sequence):
+    stack = []
+
+    for word in sequence:
+        if stack and word == stack[-1]:
+            stack.pop()
+        else:
+            stack.append(word)
+
+    return len(stack)
+
+# Examples:
+sequence1 = ['ab', 'aa', 'aa', 'bcd', 'ab']
+sequence2 = ['tom', 'jerry', 'jerry', 'tom']
+
+result1 = pairwise_destruction(sequence1)
+result2 = pairwise_destruction(sequence2)
+
+print(result1)  # Output: 3
+print(result2)  # Output: 0
+
+8. Ans
+
+def max_abs_difference(arr):
+    stack = []
+    max_difference = 0
+
+    # Calculate the left smaller elements
+    for element in arr:
+        while stack and stack[-1] >= element:
+            stack.pop()
+        left_smaller = stack[-1] if stack else 0
+        stack.append(element)
+
+    stack.clear()
+
+    # Calculate the right smaller elements and update the maximum difference
+    for element in reversed(arr):
+        while stack and stack[-1] >= element:
+            stack.pop()
+        right_smaller = stack[-1] if stack else 0
+        difference = abs(left_smaller - right_smaller)
+        max_difference = max(max_difference, difference)
+        stack.append(element)
+
+    return max_difference
+
+# Example:
+arr = [2, 1, 8, 7, 6, 5]
+
+result = max_abs_difference(arr)
+print(result)  # Output: 6
