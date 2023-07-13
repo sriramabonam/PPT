@@ -1,0 +1,174 @@
+1. Ans
+
+class Node:
+    def __init__(self, value):
+        self.val = value
+        self.left = None
+        self.right = None
+
+def convertToDLL(root):
+    if root is None:
+        return None, None
+
+    # Convert left subtree to DLL
+    left_head, left_tail = convertToDLL(root.left)
+
+    # Convert right subtree to DLL
+    right_head, right_tail = convertToDLL(root.right)
+
+    # Create a DLL node for the current root
+    node = Node(root.val)
+
+    # Connect left subtree to the current node
+    if left_tail:
+        left_tail.right = node
+        node.left = left_tail
+    else:
+        left_head = node
+
+    # Connect right subtree to the current node
+    if right_head:
+        right_head.left = node
+        node.right = right_head
+    else:
+        right_tail = node
+
+    # Return the head and tail of the DLL
+    return left_head, right_tail
+
+# Create the binary tree
+root = Node(4)
+root.left = Node(2)
+root.right = Node(5)
+root.left.left = Node(1)
+root.left.right = Node(3)
+
+# Convert the binary tree to DLL
+head, tail = convertToDLL(root)
+
+# Print the DLL in inorder traversal
+node = head
+while node:
+    print(node.val, end=' ')
+    node = node.right
+
+
+2. Ans
+
+class Node:
+    def __init__(self, value):
+        self.val = value
+        self.left = None
+        self.right = None
+
+def flipBinaryTree(root):
+    # Base case: If the root is None or a leaf node, return the root
+    if root is None or (root.left is None and root.right is None):
+        return root
+
+    # Flip the left and right subtrees recursively
+    flipped_left = flipBinaryTree(root.left)
+    flipped_right = flipBinaryTree(root.right)
+
+    # Swap the left and right children of the current node
+    root.left = flipped_right
+    root.right = flipped_left
+
+    return root
+
+# Create the binary tree
+root = Node(1)
+root.left = Node(2)
+root.right = Node(3)
+root.left.left = Node(4)
+root.left.right = Node(5)
+
+# Flip the binary tree
+flipped_root = flipBinaryTree(root)
+
+# Print the flipped binary tree
+def printBinaryTree(root):
+    if root:
+        print(root.val, end=' ')
+        printBinaryTree(root.left)
+        printBinaryTree(root.right)
+
+printBinaryTree(flipped_root)
+
+3. Ans
+
+class Node:
+    def __init__(self, value):
+        self.val = value
+        self.left = None
+        self.right = None
+
+def printPaths(root):
+    if root is None:
+        return
+
+    stack = [(root, str(root.val))]  # Stack to store nodes and corresponding paths
+
+    while stack:
+        node, path = stack.pop()
+
+        if node.left is None and node.right is None:
+            print(path)  # Print the current path
+
+        if node.right:
+            stack.append((node.right, path + '->' + str(node.right.val)))
+
+        if node.left:
+            stack.append((node.left, path + '->' + str(node.left.val)))
+
+# Create the binary tree
+root = Node(6)
+root.left = Node(3)
+root.right = Node(5)
+root.left.left = Node(2)
+root.left.right = Node(5)
+root.right.right = Node(4)
+root.left.right.left = Node(7)
+root.left.right.right = Node(4)
+
+# Print all root-to-leaf paths
+printPaths(root)
+
+4. Ans
+
+class Node:
+    def __init__(self, value):
+        self.val = value
+        self.left = None
+        self.right = None
+
+def printPaths(root):
+    if root is None:
+        return
+
+    stack = [(root, str(root.val))]  # Stack to store nodes and corresponding paths
+
+    while stack:
+        node, path = stack.pop()
+
+        if node.left is None and node.right is None:
+            print(path)  # Print the current path
+
+        if node.right:
+            stack.append((node.right, path + '->' + str(node.right.val)))
+
+        if node.left:
+            stack.append((node.left, path + '->' + str(node.left.val)))
+
+# Create the binary tree
+root = Node(6)
+root.left = Node(3)
+root.right = Node(5)
+root.left.left = Node(2)
+root.left.right = Node(5)
+root.right.right = Node(4)
+root.left.right.left = Node(7)
+root.left.right.right = Node(4)
+
+# Print all root-to-leaf paths
+printPaths(root)
