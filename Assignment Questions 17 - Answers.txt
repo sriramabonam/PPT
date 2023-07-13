@@ -1,0 +1,228 @@
+1. Ans
+
+def first_unique_char(s):
+    char_count = {}
+
+    # Count the occurrences of each character
+    for char in s:
+        char_count[char] = char_count.get(char, 0) + 1
+
+    # Find the first non-repeating character
+    for i, char in enumerate(s):
+        if char_count[char] == 1:
+            return i
+
+    return -1
+
+# Example:
+s = "leetcode"
+
+result = first_unique_char(s)
+print(result)  # Output: 0
+
+2. Ans
+def max_subarray_sum(nums):
+    n = len(nums)
+    max_sum = nums[0]
+    min_sum = nums[0]
+    current_max = nums[0]
+    current_min = nums[0]
+    total_sum = nums[0]
+
+    for i in range(1, n):
+        current_max = max(nums[i], current_max + nums[i])
+        current_min = min(nums[i], current_min + nums[i])
+        max_sum = max(max_sum, current_max)
+        min_sum = min(min_sum, current_min)
+        total_sum += nums[i]
+
+    if max_sum < 0:
+        return max_sum
+
+    return max(max_sum, total_sum - min_sum)
+
+# Example:
+nums = [1, -2, 3, -2]
+
+result = max_subarray_sum(nums)
+print(result)  # Output: 3
+
+3. Ans
+
+from collections import deque
+
+def count_students_unable_to_eat(students, sandwiches):
+    unable_to_eat = 0
+    queue = deque(students)
+    stack = list(sandwiches)
+
+    while queue and stack:
+        if queue[0] == stack[-1]:
+            queue.popleft()
+            stack.pop()
+        else:
+            queue.append(queue.popleft())
+            unable_to_eat += 1
+
+    return unable_to_eat
+
+# Example:
+students = [1, 1, 0, 0]
+sandwiches = [0, 1, 0, 1]
+
+result = count_students_unable_to_eat(students, sandwiches)
+print(result)  # Output: 0
+
+4. Ans
+
+from collections import deque
+
+class RecentCounter:
+    def __init__(self):
+        self.requests = deque()
+
+    def ping(self, t: int) -> int:
+        self.requests.append(t)
+        while self.requests[0] < t - 3000:
+            self.requests.popleft()
+        return len(self.requests)
+
+# Example usage:
+counter = RecentCounter()
+print(counter.ping(100))  # Output: 1
+print(counter.ping(300))  # Output: 2
+print(counter.ping(500))  # Output: 3
+print(counter.ping(700))  # Output: 4
+print(counter.ping(1200))  # Output: 4
+
+
+5. Ans
+
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+def find_winner(n: int, k: int) -> int:
+    # Create a circular linked list
+    head = ListNode(1)
+    curr = head
+    for i in range(2, n + 1):
+        curr.next = ListNode(i)
+        curr = curr.next
+    curr.next = head  # Make the linked list circular
+
+    # Iterate until there is only one friend left
+    while curr.next != curr:
+        # Count k friends in the clockwise direction
+        for _ in range(k - 1):
+            curr = curr.next
+
+        # Remove the last friend counted
+        curr.next = curr.next.next
+
+    return curr.val
+
+# Example:
+n = 5
+k = 2
+
+result = find_winner(n, k)
+print(result)  # Output: 3
+
+6. Ans
+
+from collections import deque
+
+def deckRevealedIncreasing(deck):
+    n = len(deck)
+    deck.sort()
+    queue = deque(range(n))
+    result = [0] * n
+
+    for card in deck:
+        result[queue.popleft()] = card
+        if queue:
+            queue.append(queue.popleft())
+
+    return result
+
+# Example:
+deck = [17,13,11,2,3,5,7]
+result = deckRevealedIncreasing(deck)
+print(result)  # Output: [2, 13, 3, 11, 5, 17, 7]
+
+7. Ans
+
+from collections import deque
+
+class FrontMiddleBack:
+    def __init__(self):
+        self.front = deque()
+        self.back = deque()
+
+    def pushFront(self, val: int) -> None:
+        self.front.appendleft(val)
+        self._balance()
+
+    def pushMiddle(self, val: int) -> None:
+        if len(self.front) > len(self.back):
+            self.back.appendleft(self.front.pop())
+        self.front.append(val)
+
+    def pushBack(self, val: int) -> None:
+        self.back.append(val)
+        self._balance()
+
+    def popFront(self) -> int:
+        if not self.front and not self.back:
+            return -1
+        if self.front:
+            return self.front.popleft()
+        return self.back.popleft()
+
+    def popMiddle(self) -> int:
+        if not self.front and not self.back:
+            return -1
+        if len(self.front) >= len(self.back):
+            return self.front.pop()
+        return self.back.popleft()
+
+    def popBack(self) -> int:
+        if not self.front and not self.back:
+            return -1
+        if self.back:
+            return self.back.pop()
+        return self.front.pop()
+
+    def _balance(self) -> None:
+        if len(self.front) > len(self.back) + 1:
+            self.back.appendleft(self.front.pop())
+        elif len(self.back) > len(self.front):
+            self.front.append(self.back.popleft())
+
+8. Ans
+
+class DataStream:
+    def __init__(self, value: int, k: int):
+        self.k = k
+        self.buffer = [0] * k
+        self.value = value
+        self.count = 0
+        self.index = 0
+
+    def consec(self, num: int) -> bool:
+        if self.buffer[self.index] == self.value:
+            self.count -= 1
+
+        self.buffer[self.index] = num
+
+        if num == self.value:
+            self.count += 1
+
+        self.index = (self.index + 1) % self.k
+
+        if self.count == self.k:
+            return True
+
+        return False
