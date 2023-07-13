@@ -1,0 +1,409 @@
+1. Ans
+
+# Create the linked list: 1 -> 2 -> 3 -> 4 -> 5
+head = ListNode(1)
+head.next = ListNode(2)
+head.next.next = ListNode(3)
+head.next.next.next = ListNode(4)
+head.next.next.next.next = ListNode(5)
+
+# Delete the middle node(s)
+new_head = deleteMiddleNode(head)
+
+# Print the modified linked list
+current = new_head
+while current:
+    print(current.val, end=" -> ")
+    current = current.next
+1 -> 2 -> 4 -> 5 ->
+
+2. Ans
+
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+def has_loop(head):
+    slow = head
+    fast = head
+
+    while fast and fast.next:
+        slow = slow.next
+        fast = fast.next.next
+
+        if slow == fast:
+            return True
+
+    return False
+
+
+# Example 1: A linked list with a loop
+# Linked list: 1 -> 2 -> 3 -> 4 -> 5 -> 3 (points back to node 3)
+
+# Create the nodes
+node1 = Node(1)
+node2 = Node(2)
+node3 = Node(3)
+node4 = Node(4)
+node5 = Node(5)
+
+# Connect the nodes to form a loop
+node1.next = node2
+node2.next = node3
+node3.next = node4
+node4.next = node5
+node5.next = node3
+
+# Check if the linked list has a loop
+has_loop_result = has_loop(node1)
+print(has_loop_result)  # Output: True
+
+3. Ans
+
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+def find_nth_from_end(head, n):
+    first = head
+    second = head
+
+    # Move the first pointer N positions ahead
+    for _ in range(n):
+        if first is None:
+            return None
+        first = first.next
+
+    # Move both pointers together until the first pointer becomes null
+    while first:
+        first = first.next
+        second = second.next
+
+    return second
+
+# Example 1: Find the 2nd node from the end
+# Linked list: 1 -> 2 -> 3 -> 4 -> 5
+
+# Create the nodes
+node1 = Node(1)
+node2 = Node(2)
+node3 = Node(3)
+node4 = Node(4)
+node5 = Node(5)
+
+# Connect the nodes
+node1.next = node2
+node2.next = node3
+node3.next = node4
+node4.next = node5
+
+# Find the 2nd node from the end
+nth_node = find_nth_from_end(node1, 2)
+if nth_node:
+    print(nth_node.data)  # Output: 4
+else:
+    print("Invalid position")
+
+4. Ans
+
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+def is_palindrome(head):
+    if head is None or head.next is None:
+        return True
+
+    slow = head
+    fast = head
+    stack = []
+
+    # Push characters onto the stack while moving the fast pointer
+    while fast and fast.next:
+        stack.append(slow.data)
+        slow = slow.next
+        fast = fast.next.next
+
+    # If the linked list has odd number of nodes, skip the middle node
+    if fast:
+        slow = slow.next
+
+    # Compare the characters with the popped stack elements
+    while slow:
+        if slow.data != stack.pop():
+            return False
+        slow = slow.next
+
+    return True
+
+# Linked list: R -> A -> D -> A -> R -> None
+
+# Create the nodes
+node1 = Node('R')
+node2 = Node('A')
+node3 = Node('D')
+node4 = Node('A')
+node5 = Node('R')
+
+# Connect the nodes
+node1.next = node2
+node2.next = node3
+node3.next = node4
+node4.next = node5
+
+# Check if the linked list is a palindrome
+is_palindrome_result = is_palindrome(node1)
+print(is_palindrome_result)  # Output: True
+
+# Linked list: C -> O -> D -> E -> None
+
+# Create the nodes
+node1 = Node('C')
+node2 = Node('O')
+node3 = Node('D')
+node4 = Node('E')
+
+# Connect the nodes
+node1.next = node2
+node2.next = node3
+node3.next = node4
+
+# Check if the linked list is a palindrome
+is_palindrome_result = is_palindrome(node1)
+print(is_palindrome_result)  # Output: False
+
+5. Ans
+
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+def detect_and_remove_loop(head):
+    slow = head
+    fast = head
+
+    # Detect the loop
+    while fast and fast.next:
+        slow = slow.next
+        fast = fast.next.next
+        if slow == fast:
+            break
+
+    # If no loop is found, return
+    if slow != fast:
+        return
+
+    # Move the slow pointer to the head
+    slow = head
+
+    # Move both pointers one step at a time until they meet again
+    while slow.next != fast.next:
+        slow = slow.next
+        fast = fast.next
+
+    # Remove the loop by setting the next pointer of the last node in the loop to None
+    fast.next = None
+# Example 1: Remove the loop from the linked list
+# Linked list: 1 -> 2 -> 3 -> 4 -> 5 -> 3 (points back to node 3)
+
+# Create the nodes
+node1 = Node(1)
+node2 = Node(2)
+node3 = Node(3)
+node4 = Node(4)
+node5 = Node(5)
+
+# Connect the nodes to form a loop
+node1.next = node2
+node2.next = node3
+node3.next = node4
+node4.next = node5
+node5.next = node3
+
+# Remove the loop from the linked list
+detect_and_remove_loop(node1)
+
+# Verify if the loop has been removed
+current = node1
+while current:
+    print(current.data, end=" ")
+    current = current.next
+
+6. Ans
+
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+def retain_delete(head, M, N):
+    if M == 0 or N == 0:
+        return head
+
+    current = head
+    previous = None
+
+    while current:
+        # Retain M nodes
+        for _ in range(M - 1):
+            if current:
+                current = current.next
+
+        if not current:
+            break
+
+        # Delete N nodes
+        previous = current
+        for _ in range(N):
+            if current:
+                current = current.next
+
+        # Update the next pointer of the previous node
+        if previous:
+            previous.next = current
+
+    return head
+
+# Linked list: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10
+
+# Create the nodes
+node1 = Node(1)
+node2 = Node(2)
+node3 = Node(3)
+node4 = Node(4)
+node5 = Node(5)
+node6 = Node(6)
+node7 = Node(7)
+node8 = Node(8)
+node9 = Node(9)
+node10 = Node(10)
+
+# Connect the nodes
+node1.next = node2
+node2.next = node3
+node3.next = node4
+node4.next = node5
+node5.next = node6
+node6.next = node7
+node7.next = node8
+node8.next = node9
+node9.next = node10
+
+# Retain 2 nodes and delete 3 nodes
+new_head = retain_delete(node1, 2, 3)
+
+# Print the modified linked list
+current = new_head
+while current:
+    print(current.data, end=" ")
+    current = current.next
+
+7. Ans
+
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+def merge_alternate(first, second):
+    if first is None:
+        return second
+
+    if second is None:
+        return first
+
+    current = first
+    while second:
+        first_next = current.next
+        second_next = second.next
+
+        current.next = second
+        second.next = first_next
+
+        current = first_next
+        second = second_next
+
+    return first
+
+def print_list(head):
+    current = head
+    while current:
+        print(current.data, end=" ")
+        current = current.next
+
+    print()
+
+# Example usage
+first_head = Node(5)
+first_head.next = Node(7)
+first_head.next.next = Node(17)
+first_head.next.next.next = Node(13)
+first_head.next.next.next.next = Node(11)
+
+second_head = Node(12)
+second_head.next = Node(10)
+second_head.next.next = Node(2)
+second_head.next.next.next = Node(4)
+second_head.next.next.next.next = Node(6)
+
+print("First list:")
+print_list(first_head)  # Output: 5 7 17 13 11
+print("Second list:")
+print_list(second_head)  # Output: 12 10 2 4 6
+
+merged_head = merge_alternate(first_head, second_head)
+
+print("Merged list:")
+print_list(merged_head)  # Output: 5 12 7 10 17 2 13 4 11 6
+
+print("Second list after merging:")
+print_list(second_head)  # Output: (Empty)
+
+8. Ans
+
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+def is_circular(head):
+    if head is None:
+        return False
+
+    slow = head
+    fast = head.next
+
+    while fast and fast.next:
+        if slow == fast:
+            return True
+
+        slow = slow.next
+        fast = fast.next.next
+
+    return False
+# Example: Check if the linked list is circular
+# Linked list: A -> B -> C -> D -> E -> C (points back to node C)
+
+# Create the nodes
+nodeA = Node('A')
+nodeB = Node('B')
+nodeC = Node('C')
+nodeD = Node('D')
+nodeE = Node('E')
+
+# Connect the nodes to form a circular linked list
+nodeA.next = nodeB
+nodeB.next = nodeC
+nodeC.next = nodeD
+nodeD.next = nodeE
+nodeE.next = nodeC
+
+# Check if the linked list is circular
+is_circular_result = is_circular(nodeA)
+print(is_circular_result)  # Output: True
+
+
