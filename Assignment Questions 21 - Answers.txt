@@ -1,0 +1,195 @@
+1. Ans
+
+class TreeNode:
+    def __init__(self, value):
+        self.val = value
+        self.left = None
+        self.right = None
+
+def inorderTraversal(node, values):
+    if node is None:
+        return
+    
+    inorderTraversal(node.left, values)
+    values.append(node.val)
+    inorderTraversal(node.right, values)
+
+def convertToBST(node, values, index):
+    if node is None:
+        return
+    
+    convertToBST(node.left, values, index)
+    node.val = values[index[0]]
+    index[0] += 1
+    convertToBST(node.right, values, index)
+
+def binaryTreeToBST(root):
+    if root is None:
+        return None
+    
+    values = []
+    inorderTraversal(root, values)
+    values.sort()
+    index = [0]
+    convertToBST(root, values, index)
+    
+    return root
+
+2. Ans
+
+class TreeNode:
+    def __init__(self, value):
+        self.val = value
+        self.left = None
+        self.right = None
+
+def findDistance(root, node1, node2):
+    if root is None:
+        return 0
+
+    if root.val > node1 and root.val > node2:
+        return findDistance(root.left, node1, node2)
+
+    if root.val < node1 and root.val < node2:
+        return findDistance(root.right, node1, node2)
+
+    if root.val >= node1 and root.val <= node2:
+        return distanceFromRoot(root, node1) + distanceFromRoot(root, node2)
+
+def distanceFromRoot(root, node):
+    if root.val == node:
+        return 0
+
+    if root.val > node:
+        return 1 + distanceFromRoot(root.left, node)
+
+    return 1 + distanceFromRoot(root.right, node)
+
+# Create the BST
+root = TreeNode(8)
+root.left = TreeNode(3)
+root.right = TreeNode(10)
+root.left.left = TreeNode(1)
+root.left.right = TreeNode(6)
+root.left.right.left = TreeNode(4)
+root.left.right.right = TreeNode(7)
+root.right.right = TreeNode(14)
+root.right.right.left = TreeNode(13)
+
+node1 = 6
+node2 = 14
+
+distance = findDistance(root, node1, node2)
+print("The distance between the two keys =", distance)
+
+3. Ans
+
+class Node:
+    def __init__(self, value):
+        self.val = value
+        self.left = None
+        self.right = None
+
+def binaryTreeToDoublyLinkedList(root):
+    if root is None:
+        return None
+
+    # Initialize prev and head pointers
+    prev = None
+    head = None
+
+    # Convert the binary tree to doubly linked list
+    convertToDoublyLinkedList(root, prev, head)
+
+    # Set the prev pointer of the head node to the last node of the doubly linked list
+    while head.left:
+        head = head.left
+
+    return head
+
+def convertToDoublyLinkedList(curr, prev, head):
+    if curr is None:
+        return
+
+    # Convert the left subtree
+    convertToDoublyLinkedList(curr.left, prev, head)
+
+    # Adjust the pointers
+    if prev is None:
+        head = curr
+    else:
+        curr.left = prev
+        prev.right = curr
+
+    prev = curr
+
+    # Convert the right subtree
+    convertToDoublyLinkedList(curr.right, prev, head)
+
+# Create the binary tree
+root = Node(10)
+root.left = Node(5)
+root.right = Node(20)
+root.right.left = Node(30)
+root.right.right = Node(35)
+
+# Convert the binary tree to a doubly linked list
+head = binaryTreeToDoublyLinkedList(root)
+
+# Print the doubly linked list
+while head:
+    print(head.val, end=' ')
+    head = head.right
+4. Ans
+
+class Node:
+    def __init__(self, value):
+        self.val = value
+        self.left = None
+        self.right = None
+        self.next = None
+
+def connectNodesAtSameLevel(root):
+    if root is None:
+        return
+
+    # Create a queue to store nodes at each level
+    queue = []
+    queue.append(root)
+
+    while queue:
+        # Get the number of nodes at the current level
+        level_size = len(queue)
+
+        # Connect the nodes at the current level
+        for i in range(level_size):
+            node = queue.pop(0)
+
+            # Set the next pointer of the current node
+            if i < level_size - 1:
+                node.next = queue[0]
+
+            # Add the left and right children of the current node to the queue
+            if node.left:
+                queue.append(node.left)
+            if node.right:
+                queue.append(node.right)
+
+# Create the binary tree
+root = Node(1)
+root.left = Node(2)
+root.right = Node(3)
+root.left.left = Node(4)
+root.left.right = Node(5)
+root.right.left = Node(6)
+root.right.right = Node(7)
+
+# Connect nodes at the same level
+connectNodesAtSameLevel(root)
+
+# Print the connected nodes at each level
+node = root
+while node:
+    print(node.val, end=' → ')
+    node = node.next
+print(-1)
