@@ -1,0 +1,201 @@
+1. Ans
+def threeSumClosest(nums, target):
+    nums.sort()
+    closestSum = float('inf')
+
+    for i in range(len(nums)-2):
+        left = i + 1
+        right = len(nums) - 1
+
+        while left < right:
+            currentSum = nums[i] + nums[left] + nums[right]
+
+            if currentSum == target:
+                return currentSum
+
+            if abs(currentSum - target) < abs(closestSum - target):
+                closestSum = currentSum
+
+            if currentSum > target:
+                right -= 1
+            else:
+                left += 1
+
+    return closestSum
+
+nums = [-1, 2, 1, -4]
+target = 1
+print(threeSumClosest(nums, target))
+
+2. Ans
+
+def fourSum(nums, target):
+    nums.sort()
+    result = []
+
+    n = len(nums)
+    for i in range(n-3):
+        if i > 0 and nums[i] == nums[i-1]:
+            continue
+
+        for j in range(i+1, n-2):
+            if j > i+1 and nums[j] == nums[j-1]:
+                continue
+
+            left = j + 1
+            right = n - 1
+
+            while left < right:
+                currentSum = nums[i] + nums[j] + nums[left] + nums[right]
+
+                if currentSum == target:
+                    result.append([nums[i], nums[j], nums[left], nums[right]])
+
+                    while left < right and nums[left] == nums[left+1]:
+                        left += 1
+                    while left < right and nums[right] == nums[right-1]:
+                        right -= 1
+
+                    left += 1
+                    right -= 1
+
+                elif currentSum < target:
+                    left += 1
+                else:
+                    right -= 1
+
+    return result
+
+nums = [1, 0, -1, 0, -2, 2]
+target
+
+3. Ans
+
+def nextPermutation(nums):
+    n = len(nums)
+    i = n - 2
+
+    # Find the first element to swap from the right
+    while i >= 0 and nums[i] >= nums[i+1]:
+        i -= 1
+
+    if i >= 0:
+        # Find the smallest element greater than nums[i] to the right of nums[i]
+        j = n - 1
+        while j > i and nums[j] <= nums[i]:
+            j -= 1
+
+        # Swap nums[i] and nums[j]
+        nums[i], nums[j] = nums[j], nums[i]
+
+    # Reverse the subarray to the right of nums[i]
+    left = i + 1
+    right = n - 1
+    while left < right:
+        nums[left], nums[right] = nums[right], nums[left]
+        left += 1
+        right -= 1
+
+    return nums
+
+nums = [1, 2, 3]
+next_permutation = nextPermutation(nums)
+print(next_permutation)
+
+4.Ans
+
+def searchInsert(nums, target):
+    left = 0
+    right = len(nums) - 1
+
+    while left <= right:
+        mid = (left + right) // 2
+
+        if nums[mid] == target:
+            return mid
+        elif nums[mid] < target:
+            left = mid + 1
+        else:
+            right = mid - 1
+
+    return left
+	
+nums = [1, 3, 5, 6]
+target = 5
+index = searchInsert(nums, target)
+print(index)
+
+5. Ans
+
+def plusOne(digits):
+    n = len(digits)
+    carry = 1
+
+    for i in range(n - 1, -1, -1):
+        sum = digits[i] + carry
+        digits[i] = sum % 10
+        carry = sum // 10
+
+    if carry == 1:
+        digits.insert(0, 1)
+
+    return digits
+digits = [1, 2, 3]
+result = plusOne(digits)
+print(result)
+
+6. Ans
+
+def singleNumber(nums):
+    result = 0
+    for num in nums:
+        result ^= num
+    return result
+nums = [2, 2, 1]
+single = singleNumber(nums)
+print(single)
+
+7. Ans
+
+def findMissingRanges(nums, lower, upper):
+    result = []
+    
+    # Check if lower is less than the first element of nums
+    if lower < nums[0]:
+        result.append([lower, nums[0] - 1])
+    
+    # Iterate through the nums array
+    for i in range(1, len(nums)):
+        if nums[i] != nums[i-1] + 1:
+            result.append([nums[i-1] + 1, nums[i] - 1])
+    
+    # Check if upper is greater than the last element of nums
+    if upper > nums[-1]:
+        result.append([nums[-1] + 1, upper])
+    
+    return result
+	
+nums = [0, 1, 3, 50, 75]
+lower = 0
+upper = 99
+result = findMissingRanges(nums, lower, upper)
+print(result)
+
+8. Ans
+
+def canAttendMeetings(intervals):
+    # Sort the intervals based on the start time
+    intervals.sort(key=lambda x: x[0])
+
+    # Iterate through the intervals
+    for i in range(1, len(intervals)):
+        if intervals[i][0] < intervals[i-1][1]:
+            # Overlapping intervals found
+            return False
+
+    # No overlaps found
+    return True
+
+intervals = [[0, 30], [5, 10], [15, 20]]
+canAttend = canAttendMeetings(intervals)
+print(canAttend)
