@@ -1,0 +1,159 @@
+1. Ans
+
+def calculateDepth(preorder):
+    depth = 0
+    max_depth = 0
+
+    for char in preorder:
+        if char == 'n':
+            depth += 1
+            max_depth = max(max_depth, depth)
+        elif char == 'l':
+            depth -= 1
+
+    return max_depth
+
+# Test the function
+preorder = "nlnll"
+depth = calculateDepth(preorder)
+print(depth)
+
+2. Ans
+
+from collections import deque
+
+class TreeNode:
+    def __init__(self, value):
+        self.val = value
+        self.left = None
+        self.right = None
+
+def printLeftView(root):
+    if not root:
+        return
+    
+    queue = deque()
+    queue.append(root)
+
+    while queue:
+        size = len(queue)
+        
+        for i in range(size):
+            node = queue.popleft()
+
+            # Print the leftmost node at each level
+            if i == 0:
+                print(node.val, end=" ")
+
+            # Enqueue the left and right child of the current node
+            if node.left:
+                queue.append(node.left)
+            if node.right:
+                queue.append(node.right)
+
+# Test the function
+root = TreeNode(4)
+root.left = TreeNode(5)
+root.right = TreeNode(2)
+root.right.left = TreeNode(3)
+root.right.right = TreeNode(1)
+root.right.left.left = TreeNode(6)
+root.right.left.right = TreeNode(7)
+
+print("Left view of the binary tree:")
+printLeftView(root)
+
+3. Ans
+
+from collections import deque
+
+class TreeNode:
+    def __init__(self, value):
+        self.val = value
+        self.left = None
+        self.right = None
+
+def printRightView(root):
+    if not root:
+        return
+    
+    queue = deque()
+    queue.append(root)
+
+    while queue:
+        size = len(queue)
+        
+        for i in range(size):
+            node = queue.popleft()
+
+            # Print the rightmost node at each level
+            if i == size - 1:
+                print(node.val, end=" ")
+
+            # Enqueue the left and right child of the current node
+            if node.left:
+                queue.append(node.left)
+            if node.right:
+                queue.append(node.right)
+
+# Test the function
+root = TreeNode(1)
+root.left = TreeNode(2)
+root.right = TreeNode(3)
+root.left.left = TreeNode(4)
+root.left.right = TreeNode(5)
+root.right.left = TreeNode(6)
+root.right.right = TreeNode(7)
+root.right.right.right = TreeNode(8)
+
+print("Right view of the binary tree:")
+printRightView(root)
+
+
+4. Ans
+
+from collections import deque
+
+class TreeNode:
+    def __init__(self, value):
+        self.val = value
+        self.left = None
+        self.right = None
+
+def printBottomView(root):
+    if not root:
+        return
+    
+    # Create a dictionary to store nodes with their horizontal distances
+    bottom_view = {}
+    queue = deque()
+    queue.append((root, 0))  # Node and its horizontal distance
+
+    while queue:
+        node, hd = queue.popleft()
+
+        # Update the horizontal distance of the node in the dictionary
+        bottom_view[hd] = node.val
+
+        # Enqueue the left and right child of the current node with their respective horizontal distances
+        if node.left:
+            queue.append((node.left, hd - 1))
+        if node.right:
+            queue.append((node.right, hd + 1))
+
+    # Print the nodes in the bottom view in the order of their horizontal distance
+    for hd in sorted(bottom_view.keys()):
+        print(bottom_view[hd], end=" ")
+
+# Test the function
+root = TreeNode(20)
+root.left = TreeNode(8)
+root.right = TreeNode(22)
+root.left.left = TreeNode(5)
+root.left.right = TreeNode(3)
+root.right.right = TreeNode(25)
+root.left.right.left = TreeNode(10)
+root.left.right.right = TreeNode(14)
+
+print("Bottom view of the binary tree:")
+printBottomView(root)
