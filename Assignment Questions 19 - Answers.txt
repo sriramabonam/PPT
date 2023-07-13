@@ -1,0 +1,198 @@
+1. Ans
+
+import heapq
+
+def mergeKLists(lists):
+    # Create a min-heap
+    minHeap = []
+    
+    # Insert the first node from each linked list into the min-heap
+    for i in range(len(lists)):
+        if lists[i]:
+            heapq.heappush(minHeap, (lists[i].val, i))
+            lists[i] = lists[i].next
+    
+    # Create a dummy node to build the result linked list
+    dummy = ListNode(0)
+    curr = dummy
+    
+    # Continuously extract the minimum node from the min-heap and add it to the result linked list
+    while minHeap:
+        val, index = heapq.heappop(minHeap)
+        curr.next = ListNode(val)
+        curr = curr.next
+        
+        if lists[index]:
+            heapq.heappush(minHeap, (lists[index].val, index))
+            lists[index] = lists[index].next
+    
+    return dummy.next
+
+2. Ans
+
+def countSmaller(nums):
+    def mergeSort(arr, count):
+        if len(arr) <= 1:
+            return arr
+        
+        mid = len(arr) // 2
+        left = mergeSort(arr[:mid], count)
+        right = mergeSort(arr[mid:], count)
+        
+        merged = []
+        i, j = 0, 0
+        
+        while i < len(left) and j < len(right):
+            if left[i][0] <= right[j][0]:
+                merged.append(left[i])
+                count[left[i][1]] += j
+                i += 1
+            else:
+                merged.append(right[j])
+                j += 1
+        
+        while i < len(left):
+            merged.append(left[i])
+            count[left[i][1]] += j
+            i += 1
+        
+        while j < len(right):
+            merged.append(right[j])
+            j += 1
+        
+        return merged
+    
+    n = len(nums)
+    count = [0] * n
+    arr = [(nums[i], i) for i in range(n)]
+    mergeSort(arr, count)
+    
+    return count
+
+3. Ans
+
+def mergeSort(nums):
+    if len(nums) <= 1:
+        return nums
+    
+    mid = len(nums) // 2
+    left = mergeSort(nums[:mid])
+    right = mergeSort(nums[mid:])
+    
+    return merge(left, right)
+
+def merge(left, right):
+    merged = []
+    i, j = 0, 0
+    
+    while i < len(left) and j < len(right):
+        if left[i] <= right[j]:
+            merged.append(left[i])
+            i += 1
+        else:
+            merged.append(right[j])
+            j += 1
+    
+    while i < len(left):
+        merged.append(left[i])
+        i += 1
+    
+    while j < len(right):
+        merged.append(right[j])
+        j += 1
+    
+    return merged
+
+def sortArray(nums):
+    return mergeSort(nums)
+
+4. Ans
+
+def pushZerosToEnd(nums):
+    n = len(nums)
+    i = 0  # pointer for non-zero elements
+    
+    # Move non-zero elements to the front
+    for j in range(n):
+        if nums[j] != 0:
+            nums[i] = nums[j]
+            i += 1
+    
+    # Fill the remaining elements with zeros
+    while i < n:
+        nums[i] = 0
+        i += 1
+
+    return nums
+
+5. Ans
+
+def alternateArrange(nums):
+    n = len(nums)
+    i = 0  # pointer for positive numbers
+    
+    # Move positive numbers to the front
+    for j in range(n):
+        if nums[j] > 0:
+            nums[i], nums[j] = nums[j], nums[i]
+            i += 1
+    
+    # Rearrange negative numbers and positive numbers
+    p = 1  # pointer for negative numbers
+    while p < i and i < n:
+        nums[p], nums[i] = nums[i], nums[p]
+        p += 2
+        i += 1
+    
+    return nums
+
+6. Ans
+
+def alternateArrange(nums):
+    n = len(nums)
+    i = 0  # pointer for positive numbers
+    
+    # Move positive numbers to the front
+    for j in range(n):
+        if nums[j] > 0:
+            nums[i], nums[j] = nums[j], nums[i]
+            i += 1
+    
+    # Rearrange negative numbers and positive numbers
+    p = 1  # pointer for negative numbers
+    while p < i and i < n:
+        nums[p], nums[i] = nums[i], nums[p]
+        p += 2
+        i += 1
+    
+    return nums
+
+7. Ans
+
+def intersection(nums1, nums2):
+    set1 = set(nums1)
+    result = set()
+    
+    for num in nums2:
+        if num in set1:
+            result.add(num)
+    
+    return list(result)
+
+
+8. Ans
+
+def intersection(nums1, nums2):
+    freq = {}
+    result = []
+    
+    for num in nums1:
+        freq[num] = freq.get(num, 0) + 1
+    
+    for num in nums2:
+        if num in freq and freq[num] > 0:
+            result.append(num)
+            freq[num] -= 1
+    
+    return result
+
